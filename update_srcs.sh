@@ -51,19 +51,29 @@ function split_append_join()
 {
 	rm -f $splitA $splitB
 
+	SRC_MARK="#_S"
+	echo "'$SRC_MARK'"
 	head -n $(($split_at - 1)) $file > $splitA
-	tail -n +$(($split_at + 1)) $file > $splitB
-	printf $CY$file" split at line "$split_at" into "$splitA" & "$splitB$RC"\n"
+	sed_string="/^${SRC_MARK}/,/^${SRC_MARK}/ p"
+	echo "sed_string : $sed_string"
+	remove_old=$(sed -n $sed_string $file)
+	echo "REM OLD : "$remove_old
+	tail -n +$(($split_at + 1 + $remove_old)) $file > $splitB
+	printf $CY$file" split at line "$split_at" into "$splitA" & "$splitB" and removed $remove_old lines from old $srcname"$RC"\n"
 
-	echo "# ***************************************************************** #" >> $splitA
+	echo  >> $splitA
+	echo $SRC_MARK >> $splitA
+	echo "# ******************************* SRC ***************************** #" >> $splitA
 	echo "#     Generated with github.com/lorenuars19/makefile-scrs-updater   #" >> $splitA
 	echo "# ***************************************************************** #" >> $splitA
 	echo $srcname" =" >> $splitA
 	find -name '*.c' | cut -c 3- | sed -e 's|$| \\|' \
 	| sed -e "s|^|\t|">> $splitA
 	echo "" >> $splitA
+	echo $SRC_MARK >> $splitA
+	echo "" >> $splitA
 	printf $CY"$srcname append to "$splitA$RC"\n"
-	cat $splitA $splitB > $file
+	cat $splitA $splitB > .jointest
 	printf $GR"$file re-joined"$RC"\n"
 	return 0
 }
@@ -79,7 +89,7 @@ printf $RE"Do you want to continue (Y/n)? "$RC
 read ans
 if [ "$ans" == "Y" ] || [ "$ans" == "y" ] || [ -z "$ans" ];then
 	split_append_join $split_at
-	rm -f $splitA $splitB
+	#rm -f $splitA $splitB
 else
 	exit 0
 fi

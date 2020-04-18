@@ -6,7 +6,7 @@
 #    By: lorenuar <lorenuar@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/10 13:37:24 by lorenuar          #+#    #+#              #
-#    Updated: 2020/04/18 23:54:06 by lorenuar         ###   ########.fr        #
+#    Updated: 2020/04/19 01:12:51 by lorenuar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,16 @@ OBJDIR	= objs/
 
 CFLAGS	+= -I $(INCDIR)
 
-SRCS	:= $(wildcard $(SRCDIR)*.c)#			Full path
+#_S
+# ***************************************************************** #
+#     Generated with github.com/lorenuars19/makefile-scrs-updater   #
+# ***************************************************************** #
+SRCS =
+	1
+	2
+	3
+
+#_S 
 SRC		:= $(notdir $(SRCS))#					Files only
 OBJ		:= $(SRC:.c=.o)#						Files only
 OBJS	:= $(addprefix $(OBJDIR), $(OBJ))#		Full path
