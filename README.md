@@ -1,2 +1,2 @@
 # makefile-scrs-updater
-Tired of typing your srcs manually ? This script will do it for you
+You are a 42 network studnet and you are tired of typing your srcs manually ? This script will do it for you
