@@ -28,4 +28,4 @@ splitB=.split.b.ignore.me
 4. Re-join the two files
 # Contribute
 I am far form an expert in shell scripting, there's likely better ways to implement it.
-So feel free to pull request, to upgrade and improve this script
+So feel free to pull request, to upgrade and improve this script.
