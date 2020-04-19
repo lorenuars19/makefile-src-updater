@@ -1,7 +1,7 @@
 # makefile-scrs-updater
 You are a 42 network student and you are tired of typing your srcs manually ? This script will do it for you
 # Usage 
-1. Copy the script into a folder containing a Makefile
+1. Copy the script into a folder containing a Makefile with a line containing 
 2. run the script (it is interactive)
 # Warning
 **DO NOT REMOVE THE BACKUP FILE UNLESS YOU ARE SURE THAT YOU DON'T NEED IT ANYMORE, THIS SCRIPT *REPLACES* THE CONTENT OF YOUR FILE**<br>
@@ -22,10 +22,10 @@ splitA=.split.a.ignore.me
 splitB=.split.b.ignore.me
 ```
 # How it works
-1. Find the line containing the $srcname with grep
-2. Split the file into two files $splitA & $splitB
-3. Append the content to $splitA
-4. Re-join the two files
+1. Find the line containing the `$srcname` with `grep`
+2. Split the file into two files `$splitA` & `$splitB`
+3. Append the content to `$splitA`
+4. Re-join the two splits
 # Contribute
 I am far form an expert in shell scripting, there's likely better ways to implement it.
 So feel free to pull request, to upgrade and improve this script.

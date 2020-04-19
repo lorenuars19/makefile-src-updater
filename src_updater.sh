@@ -20,10 +20,11 @@ RC='\033[0m'		#	Reset Colors
 file='Makefile'		#	Makefile name
 bkpfile='.'$file'.bkp.in.case.something.goes.wrong' # Backup file name
 srcname='SRCS'		#	Pattern to look for
-srcdir='src'		#	Srcs directory name
-findptrn='*.c'		#	Find pattern
+srcdir='src/'		#	Srcs directory name
+findptrn='( -name '*.c' )'		#	Find pattern
 
-SRC_MARK="#================================SRC-UPDATER===================================#"
+SRC_MARK_START="###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼"
+SRC_MARK_END="###▲▲▲<src-updater-do-not-edit-or-remove>▲▲▲"
 #	Marker for updating without messing up the file
 
 splitA=.split.a.ignore.me
@@ -44,12 +45,12 @@ function check_file()
 
 function get_split()
 {
-	split_at=$(grep -n -m 1 $SRC_MARK $file | sed 's/:.*//')
+	split_at=$(grep -n -m 1 $SRC_MARK_START $file | sed 's/:.*//')
 	if [ -z $split_at ]; then
 		split_at=$(grep -n -m 1 $srcname $file | sed 's/:.*//')
 		printf $CY"Found '$srcname' at line $split_at"$RC" > "
 	else
-		printf $CY"Found '$SRC_MARK' at line $split_at"$RC" > "
+		printf $CY"Found '$SRC_MARK_START' at line $split_at"$RC" > "
 		OLD_FOUND=1
 	fi
 	return 0
@@ -57,20 +58,18 @@ function get_split()
 
 function split_append_join()
 {
-	rm -f $splitA $splitB
+	rm -fv $splitA $splitB
 
 	if [ $OLD_FOUND == 1 ]; then
-		sed_string="/^${SRC_MARK}$/,/^${SRC_MARK}$/p"
+		sed_string="/^${SRC_MARK_START}$/,/^${SRC_MARK_END}$/p"
 		rem_old=$(sed -n $sed_string $file | wc -l)
-		echo "REM OLD : "$rem_old
 
-		split_start=$(($split_at - 2))
-		split_end=$(($split_at + $rem_old +_2))
+		split_start=$(($split_at - 1))
+		split_end=$(($split_at + $rem_old +_1))
 		head -n $split_start $file > $splitA
 		tail -n +$split_end $file > $splitB
-		printf $CY$file" split  & removed from line "$split_start" to " \
-		$split_end" ("$rem_old") into "$splitA" & "$splitB" and removed" \
-		$rem_old" lines from old $srcname"$RC"\n"
+		printf $CY$file" split & removed from line "$split_start" to "$split_end" \
+("$rem_old") into "$splitA" & "$splitB$RC"\n"
 	else
 		
 		head -n $(($split_at - 1)) $file > $splitA
@@ -78,15 +77,15 @@ function split_append_join()
 		printf $CY$file" split at line "$split_at" into "$splitA" & "$splitB$RC"\n"
 	fi
 
-	echo  >> $splitA
-	echo $SRC_MARK >> $splitA
-	echo "#          Generated with github.com/lorenuars19/makefile-scrs-updater         #" >> $splitA
-	echo "#==============================================================================#" >> $splitA
+	echo $SRC_MARK_START >> $splitA
+	echo "# **************************************************************************** #" >> $splitA
+	echo "# **   Generated with https://github.com/lorenuars19/makefile-src-updater   ** #" >> $splitA
+	echo "# **************************************************************************** #" >> $splitA
 	echo $srcname" =" >> $splitA
-	find -name '*.c' | cut -c 3- | sed -e 's|$| \\|' \
+	find $findptrn | cut -c 3- | sed -e 's|$| \\|' \
 	| sed -e "s|^|\t|">> $splitA
 	echo "" >> $splitA
-	echo $SRC_MARK >> $splitA
+	echo $SRC_MARK_END >> $splitA
 	printf $CY"$srcname appended to "$splitA$RC"\n"
 	cat $splitA $splitB > $file
 	printf $GR"$file re-joined"$RC"\n"
@@ -107,7 +106,7 @@ printf $RE"Do you want to continue (Y/n)? "$RC
 read ans
 if [ "$ans" == "Y" ] || [ "$ans" == "y" ] || [ -z "$ans" ];then
 	split_append_join $split_at
-	#rm -f $splitA $splitB
+	rm -fv $splitA $splitB
 else
 	exit 0
 fi
@@ -115,9 +114,7 @@ fi
 printf $RE"Do you want to remove backup file (N/y)? "$RC
 read ans
 if [ "$ans" == "Y" ] || [ "$ans" == "y" ] ;then
-	printf $RE
-	rm -v $bkpfile
-	printf $RC
+	rm -vi $bkpfile
 else
 	exit 0
 fi
