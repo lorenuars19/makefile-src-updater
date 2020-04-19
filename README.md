@@ -10,7 +10,7 @@ I decline all responsibilities in case of any lose of any content.
 You can tweak and change the name of the files and the pattern to grep
 ```
 file='Makefile'                                     #    Makefile name
-bkpfile='.'$file'.bkp.in.case.something.goes.wrong' #     Backup file name
+bkpfile='.'$file'.bkp.in.case.something.goes.wrong' #    Backup file name
 srcname='SRCS'                                      #    Pattern to look for
 srcdir='src/'                                       #    Srcs directory name
 findptrn='( -name '*.c' )'                          #    Find pattern
