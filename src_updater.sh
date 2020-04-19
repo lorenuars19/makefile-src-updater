@@ -23,6 +23,9 @@ srcname='SRCS'		#	Pattern to look for
 srcdir='src'		#	Srcs directory name
 findptrn='*.c'		#	Find pattern
 
+SRC_MARK="#================================SRC-UPDATER===================================#"	
+#	Marker for updating without messing up the file
+
 splitA=.split.a.ignore.me
 splitB=.split.b.ignore.me
 
@@ -41,42 +44,57 @@ function check_file()
 
 function get_split()
 {
-	split_at=$(grep -n -m 1 $srcname $file | sed 's/:.*//')
-	printf $CY"Found '$srcname' at line $split_at"$RC" > "
-	
-	return $split_at
+	split_at=$(grep -n -m 1 $SRC_MARK $file | sed 's/:.*//')
+	if [ -z $split_at ]; then
+		split_at=$(grep -n -m 1 $srcname $file | sed 's/:.*//')
+		printf $CY"Found '$srcname' at line $split_at"$RC" > "
+	else
+		printf $CY"Found '$SRC_MARK' at line $split_at"$RC" > "
+		OLD_FOUND=1
+	fi
+	return 0
 }
 
 function split_append_join()
 {
 	rm -f $splitA $splitB
 
-	SRC_MARK="#_S"
-	echo "'$SRC_MARK'"
-	head -n $(($split_at - 1)) $file > $splitA
-	sed_string="/^${SRC_MARK}/,/^${SRC_MARK}/ p"
-	echo "sed_string : $sed_string"
-	remove_old=$(sed -n $sed_string $file)
-	echo "REM OLD : "$remove_old
-	tail -n +$(($split_at + 1 + $remove_old)) $file > $splitB
-	printf $CY$file" split at line "$split_at" into "$splitA" & "$splitB" and removed $remove_old lines from old $srcname"$RC"\n"
+	if [ $OLD_FOUND == 1 ]; then
+		sed_string="/^${SRC_MARK}$/,/^${SRC_MARK}$/p"
+		rem_old=$(sed -n $sed_string $file | wc -l)
+		echo "REM OLD : "$rem_old
+
+		split_start=$(($split_at - 2))
+		split_end=$(($split_at + $rem_old +_2))
+		head -n $split_start $file > $splitA
+		tail -n +$split_end $file > $splitB
+		printf $CY$file" split  & removed from line "$split_start" to " \
+		$split_end" ("$rem_old") into "$splitA" & "$splitB" and removed" \
+		$rem_old" lines from old $srcname"$RC"\n"
+	else
+		
+		head -n $(($split_at - 1)) $file > $splitA
+		tail -n +$(($split_at + 1)) $file > $splitB
+		printf $CY$file" split at line "$split_at" into "$splitA" & "$splitB$RC"\n"
+	fi
 
 	echo  >> $splitA
 	echo $SRC_MARK >> $splitA
-	echo "# ******************************* SRC ***************************** #" >> $splitA
-	echo "#     Generated with github.com/lorenuars19/makefile-scrs-updater   #" >> $splitA
-	echo "# ***************************************************************** #" >> $splitA
+	echo "#          Generated with github.com/lorenuars19/makefile-scrs-updater         #" >> $splitA
+	echo "#==============================================================================#" >> $splitA
 	echo $srcname" =" >> $splitA
 	find -name '*.c' | cut -c 3- | sed -e 's|$| \\|' \
 	| sed -e "s|^|\t|">> $splitA
 	echo "" >> $splitA
 	echo $SRC_MARK >> $splitA
-	echo "" >> $splitA
-	printf $CY"$srcname append to "$splitA$RC"\n"
-	cat $splitA $splitB > .jointest
+	printf $CY"$srcname appended to "$splitA$RC"\n"
+	cat $splitA $splitB > $file
 	printf $GR"$file re-joined"$RC"\n"
+
 	return 0
 }
+
+OLD_FOUND=0
 
 check_file
 if [ $? == 1 ];then
