@@ -11,17 +11,17 @@
 #                                                                              #
 # **************************************************************************** #
 
-GR='\033[32;1m'		#	Green
-RE='\033[31;1m'		#	Red
-WI='\033[33;1m'		#	Yellow
-CY='\033[36;1m'		#	Cyan
-RC='\033[0m'		#	Reset Colors
+GR='\033[32;1m'										#	Green
+RE='\033[31;1m'										#	Red
+WI='\033[33;1m'										#	Yellow
+CY='\033[36;1m'										#	Cyan
+RC='\033[0m'										#	Reset Colors
 
-file='Makefile'		#	Makefile name
-bkpfile='.'$file'.bkp.in.case.something.goes.wrong' # Backup file name
-srcname='SRCS'		#	Pattern to look for
-srcdir='src/'		#	Srcs directory name
-findptrn='( -name '*.c' )'		#	Find pattern
+file='Makefile'										#	Makefile name
+bkpfile='.'$file'.bkp.in.case.something.goes.wrong' # 	Backup file name
+srcname='SRCS'										#	Pattern to look for
+srcdir='src/'										#	Srcs directory name
+findptrn='( -name '*.c' )'							#	Find pattern
 
 SRC_MARK_START="###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼"
 SRC_MARK_END="###▲▲▲<src-updater-do-not-edit-or-remove>▲▲▲"
