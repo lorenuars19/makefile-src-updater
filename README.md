@@ -26,3 +26,6 @@ splitB=.split.b.ignore.me
 2. Split the file into two files $splitA & $splitB
 3. Append the content to $splitA
 4. Re-join the two files
+# Contribute
+I am far form an expert in shell scripting, there's likely better ways to implement it.
+So feel free to pull request, to upgrade and improve this script
