@@ -23,7 +23,7 @@ srcname='SRCS'		#	Pattern to look for
 srcdir='src'		#	Srcs directory name
 findptrn='*.c'		#	Find pattern
 
-SRC_MARK="#================================SRC-UPDATER===================================#"	
+SRC_MARK="#================================SRC-UPDATER===================================#"
 #	Marker for updating without messing up the file
 
 splitA=.split.a.ignore.me
