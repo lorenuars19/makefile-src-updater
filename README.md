@@ -1,4 +1,4 @@
-# makefile-scrs-updater
+# makefile-src-updater
 You are a 42 network student and you are tired of typing your srcs manually ? This script will do it for you
 # Usage 
 1. Copy the script into a folder containing a Makefile with a line containing `$srcname`
