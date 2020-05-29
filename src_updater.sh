@@ -22,7 +22,7 @@ bkpfile='.'$file'.bkp.in.case.something.goes.wrong' # 	Backup file name
 srcname='SRCS'										#	Pattern to look for
 srcdir='src/'										#	Srcs directory name
 
-findptrn="**.c"										#	Find pattern
+findptrn="**.c"									#	Find pattern
 
 
 SRC_MARK_START="###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼"
@@ -84,7 +84,7 @@ function split_append_join()
 	echo "# **   Generated with https://github.com/lorenuars19/makefile-src-updater   ** #" >> $splitA
 	echo "# **************************************************************************** #" >> $splitA
 	echo $srcname" = \\" >> $splitA
-	find . -type f -name "$findptrn" | sed -e 's|$| \\|' | sed -e "s|^|\t|" >> $splitA
+	find . -type f -name "$findptrn" | sed -e 's|^./|\t|'| sed -e 's|$| \\|' >> $splitA
 	echo "" >> $splitA
 	echo $SRC_MARK_END >> $splitA
 	printf $CY"$srcname appended to "$splitA$RC"\n"
@@ -119,4 +119,3 @@ if [ "$ans" == "Y" ] || [ "$ans" == "y" ] ;then
 else
 	exit 0
 fi
-
