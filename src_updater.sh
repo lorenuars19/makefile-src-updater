@@ -21,12 +21,12 @@ file='Makefile'										#	Makefile name
 bkpfile='.'$file'.bkp.in.case.something.goes.wrong' # 	Backup file name
 
 SRCname='SRCS'										#	Pattern to look for
-srcdir='src/'										#	Srcs directory name
+SRCdir='src/'										#	Srcs directory name
 SRCfindptrn="**.c"									#	Find pattern
 
 HEADERname='HEADERS'								#	Pattern to look for
 HEADERdir='inc/'									#	Srcs directory name
-HEADERfindptrn="**.h"									#	Find pattern
+HEADERfindptrn="**.h"								#	Find pattern
 
 
 
