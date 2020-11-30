@@ -39,5 +39,5 @@ splitB=.split.b.ignore.me
 5. Re-join the two splits into `$file`
 
 # Contribute
-I am far form an expert in shell scripting, there's likely better ways to implement it.
+I am far from an expert in shell scripting, there's likely better ways to implement it.
 So feel free to pull request, to upgrade and improve this script.
