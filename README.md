@@ -10,23 +10,25 @@ I decline all responsibilities in case of any lose of any content.
 # Customization
 You can tweak and change the name of the files and the pattern to grep
 ```
-file='Makefile'										#	Makefile name
-bkpfile='.'$file'.bkp.in.case.something.goes.wrong' # 	Backup file name
+file='Makefile'         # Makefile name
+bkpfile='.'$file'.bkp.in.case.something.goes.wrong'
+# Backup file name
 
-SRCname='SRCS'										#	Pattern to look for
-srcdir='src/'										#	Srcs directory name
-SRCfindptrn="**.c"									#	Find pattern
+SRCname='SRCS'          # Pattern to look for
+SRCdir='src/'           # Srcs directory name
+SRCfindptrn="**.c"      # Find pattern
 
-HEADERname='HEADERS'								#	Pattern to look for
-HEADERdir='inc/'									#	Srcs directory name
-HEADERfindptrn="**.h"								#	Find pattern
+HEADERname='HEADERS'    # Pattern to look for
+HEADERdir='inc/'        # Srcs directory name
+HEADERfindptrn="**.h"   # Find pattern
 
 SRC_MARK_START="###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼"
 SRC_MARK_END="###▲▲▲<src-updater-do-not-edit-or-remove>▲▲▲"
-#    Marker for updating without messing up the file
+# Marker for updating without messing up the file
 
 splitA=.split.a.ignore.me
 splitB=.split.b.ignore.me
+# Names of the temporary files needed for splitting and re-joining
 ```
 # How it works
 0. Check `$file` exists and make a backup
