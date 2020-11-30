@@ -19,10 +19,15 @@ RC='\033[0m'										#	Reset Colors
 
 file='Makefile'										#	Makefile name
 bkpfile='.'$file'.bkp.in.case.something.goes.wrong' # 	Backup file name
-srcname='SRCS'										#	Pattern to look for
-srcdir='src/'										#	Srcs directory name
 
-findptrn="**.c"									#	Find pattern
+SRCname='SRCS'										#	Pattern to look for
+srcdir='src/'										#	Srcs directory name
+SRCfindptrn="**.c"									#	Find pattern
+
+HEADERname='HEADERS'								#	Pattern to look for
+HEADERdir='inc/'									#	Srcs directory name
+HEADERfindptrn="**.h"									#	Find pattern
+
 
 
 SRC_MARK_START="###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼"
@@ -41,7 +46,7 @@ function check_file()
 		printf $RE"Error : "$file" is not a readable file"$RC'\n'
 		return 1
 	fi
-	
+
 	return 0
 }
 
@@ -49,8 +54,8 @@ function get_split()
 {
 	split_at=$(grep -n -m 1 $SRC_MARK_START $file | sed 's/:.*//')
 	if [ -z $split_at ]; then
-		split_at=$(grep -n -m 1 $srcname $file | sed 's/:.*//')
-		printf $CY"Found '$srcname' at line $split_at"$RC" > "
+		split_at=$(grep -n -m 1 $SRCname $file | sed 's/:.*//')
+		printf $CY"Found '$SRCname' at line $split_at"$RC" > "
 	else
 		printf $CY"Found '$SRC_MARK_START' at line $split_at"$RC" > "
 		OLD_FOUND=1
@@ -73,7 +78,7 @@ function split_append_join()
 		printf $CY$file" split & removed from line "$split_start" to "$split_end" \
 ("$rem_old") into "$splitA" & "$splitB$RC"\n"
 	else
-		
+
 		head -n $(($split_at - 1)) $file > $splitA
 		tail -n +$(($split_at + 1)) $file > $splitB
 		printf $CY$file" split at line "$split_at" into "$splitA" & "$splitB$RC"\n"
@@ -83,11 +88,19 @@ function split_append_join()
 	echo "# **************************************************************************** #" >> $splitA
 	echo "# **   Generated with https://github.com/lorenuars19/makefile-src-updater   ** #" >> $splitA
 	echo "# **************************************************************************** #" >> $splitA
-	echo $srcname" = \\" >> $splitA
-	find . -type f -name "$findptrn" | sed -e 's|^./|\t|'| sed -e 's|$| \\|' >> $splitA
+	echo $SRCname" = \\" >> $splitA
+
+	find ./$SRCdir -type f -name "$SRCfindptrn" | sed -e 's|^|\t|'| sed -e 's|$| \\|' >> $splitA
+
 	echo "" >> $splitA
+	printf $CY"$SRCname appended to "$splitA$RC"\n"
+	echo $HEADERname" = \\" >> $splitA
+
+	find ./$HEADERdir -type f -name "$HEADERfindptrn" | sed -e 's|^|\t|'| sed -e 's|$| \\|' >> $splitA
+
+	echo "" >> $splitA
+	printf $CY"$HEADERname appended to "$splitA$RC"\n"
 	echo $SRC_MARK_END >> $splitA
-	printf $CY"$srcname appended to "$splitA$RC"\n"
 	cat $splitA $splitB > $file
 	printf $GR"$file re-joined"$RC"\n"
 
@@ -103,19 +116,16 @@ fi
 
 get_split
 
-printf $RE"Do you want to continue (Y/n)? "$RC
-read ans
-if [ "$ans" == "Y" ] || [ "$ans" == "y" ] || [ -z "$ans" ];then
+if [[ OLD_FOUND -eq 0 ]]; then
+	printf $RE"Do you want to continue (Y/n)? "$RC
+	read ans
+	if [ "$ans" == "Y" ] || [ "$ans" == "y" ] || [ -z "$ans" ];then
+		split_append_join $split_at
+		rm -fv $splitA $splitB
+	else
+		exit 0
+	fi
+else
 	split_append_join $split_at
 	rm -fv $splitA $splitB
-else
-	exit 0
-fi
-
-printf $RE"Do you want to remove backup file (N/y)? "$RC
-read ans
-if [ "$ans" == "Y" ] || [ "$ans" == "y" ] ;then
-	rm -vi $bkpfile
-else
-	exit 0
 fi

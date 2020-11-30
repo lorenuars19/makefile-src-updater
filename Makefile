@@ -31,9 +31,14 @@ CFLAGS	+= -I $(INCDIR)
 # **************************************************************************** #
 # **   Generated with https://github.com/lorenuars19/makefile-src-updater   ** #
 # **************************************************************************** #
-SRCS =
-	src/test.c \
-	src/sub/sub/test.c \
+SRCS = \
+	./src/src.c \
+	./src/sub/o.c \
+	./src/sub/e.c \
+
+HEADERS = \
+	./inc/subHeader/TES.h \
+	./inc/Text.h \
 
 ###▲▲▲<src-updater-do-not-edit-or-remove>▲▲▲
 
