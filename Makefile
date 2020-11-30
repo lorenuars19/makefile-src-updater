@@ -6,7 +6,7 @@
 #    By: lorenuar <lorenuar@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/10 13:37:24 by lorenuar          #+#    #+#              #
-#    Updated: 2020/04/19 15:30:54 by lorenuar         ###   ########.fr        #
+#    Updated: 2020/11/30 16:08:52 by lorenuar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,14 +31,10 @@ CFLAGS	+= -I $(INCDIR)
 # **************************************************************************** #
 # **   Generated with https://github.com/lorenuars19/makefile-src-updater   ** #
 # **************************************************************************** #
+
 SRCS = \
-	./src/src.c \
-	./src/sub/o.c \
-	./src/sub/e.c \
 
 HEADERS = \
-	./inc/subHeader/TES.h \
-	./inc/Text.h \
 
 ###▲▲▲<src-updater-do-not-edit-or-remove>▲▲▲
 

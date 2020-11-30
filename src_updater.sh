@@ -53,7 +53,14 @@ function check_file()
 function get_split()
 {
 	split_at=$(grep -n -m 1 $SRC_MARK_START $file | sed 's/:.*//')
-	if [ -z $split_at ]; then
+	check_end_mark=$(grep -n -m 1 $SRC_MARK_END $file | sed 's/:.*//')
+	if [[ ! -z $split_at ]] && [[ -z $check_end_mark ]]
+	then
+		printf $RE"Cannot find $SRC_MARK_END in $file"$RC"\n"
+		exit 1
+	fi
+	if [ -z $split_at ]
+	then
 		split_at=$(grep -n -m 1 $SRCname $file | sed 's/:.*//')
 		printf $CY"Found '$SRCname' at line $split_at"$RC" > "
 	else
@@ -88,18 +95,25 @@ function split_append_join()
 	echo "# **************************************************************************** #" >> $splitA
 	echo "# **   Generated with https://github.com/lorenuars19/makefile-src-updater   ** #" >> $splitA
 	echo "# **************************************************************************** #" >> $splitA
+	echo "" >> $splitA
 	echo $SRCname" = \\" >> $splitA
 
-	find ./$SRCdir -type f -name "$SRCfindptrn" | sed -e 's|^|\t|'| sed -e 's|$| \\|' >> $splitA
+	if [[ -d $SRCdir ]]
+	then
+		find ./$SRCdir -type f -name "$SRCfindptrn" | sed -e 's|^|\t|'| sed -e 's|$| \\|' >> $splitA
+		printf $CY"$SRCname appended to "$splitA$RC"\n"
+	fi
 
 	echo "" >> $splitA
-	printf $CY"$SRCname appended to "$splitA$RC"\n"
 	echo $HEADERname" = \\" >> $splitA
 
-	find ./$HEADERdir -type f -name "$HEADERfindptrn" | sed -e 's|^|\t|'| sed -e 's|$| \\|' >> $splitA
+	if [[ -d $HEADERdir ]]
+	then
+		find ./$HEADERdir -type f -name "$HEADERfindptrn" | sed -e 's|^|\t|'| sed -e 's|$| \\|' >> $splitA
+		printf $CY"$HEADERname appended to "$splitA$RC"\n"
+	fi
 
 	echo "" >> $splitA
-	printf $CY"$HEADERname appended to "$splitA$RC"\n"
 	echo $SRC_MARK_END >> $splitA
 	cat $splitA $splitB > $file
 	printf $GR"$file re-joined"$RC"\n"
