@@ -19,7 +19,7 @@ SRCdir='src/'           # Srcs directory name
 SRCfindptrn="**.c"      # Find pattern
 
 HEADERname='HEADERS'    # Pattern to look for
-HEADERdir='inc/'        # Srcs directory name
+HEADERdir='includes/'   # Srcs directory name
 HEADERfindptrn="**.h"   # Find pattern
 
 SRC_MARK_START="###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼"

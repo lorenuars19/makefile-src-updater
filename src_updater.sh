@@ -25,7 +25,7 @@ SRCdir='src/'										#	Srcs directory name
 SRCfindptrn="**.c"									#	Find pattern
 
 HEADERname='HEADERS'								#	Pattern to look for
-HEADERdir='includes/'									#	Srcs directory name
+HEADERdir='includes/'								#	Srcs directory name
 HEADERfindptrn="**.h"								#	Find pattern
 
 
@@ -105,7 +105,7 @@ function split_append_join()
 	fi
 
 	echo "" >> $splitA
-	echo $HEADERname" = \\" >> $splitA
+	echo $HEADERname" =\\" >> $splitA
 
 	if [[ -d $HEADERdir ]]
 	then

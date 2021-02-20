@@ -6,27 +6,33 @@
 #    By: lorenuar <lorenuar@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/10 13:37:24 by lorenuar          #+#    #+#              #
-#    Updated: 2021/02/20 18:49:18 by lorenuar         ###   ########.fr        #
+#    Updated: 2021/02/20 18:55:44 by lorenuar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # ================================ VARIABLES ================================= #
 
+# The name of your executable
 NAME	= Program
 
+# Compiler and compiling flags
 CC	= gcc
 CFLAGS	= -Wall -Werror -Wextra
 
+# Debug, use with`make DEBUG=1`
 ifeq ($(DEBUG),1)
 CFLAGS	+= -g3 -fsanitize=address
 endif
 
+# Folder name
 SRCDIR	= src/
 INCDIR	= includes/
 OBJDIR	= bin/
 
+# Add include folder
 CFLAGS	+= -I $(INCDIR)
 
+# Linking stage flags
 LDFLAGS =
 
 ###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼
@@ -36,20 +42,23 @@ LDFLAGS =
 
 SRCS =\
 
-HEADERS = \
+HEADERS =\
 
 ###▲▲▲<src-updater-do-not-edit-or-remove>▲▲▲
 
-SRC		:= $(notdir $(SRCS)) # 				Files only
-OBJ		:= $(SRC:.c=.o)	#				Files only
-OBJS	:= $(addprefix $(OBJDIR), $(OBJ)) #		Full path
+# String manipulation magic
+SRC		:= $(notdir $(SRCS))
+OBJ		:= $(SRC:.c=.o)
+OBJS	:= $(addprefix $(OBJDIR), $(OBJ))
 
-GR	= \033[32;1m#	Green
-RE	= \033[31;1m#	Red
-YE	= \033[33;1m#	Yellow
-CY	= \033[36;1m#	Cyan
-RC	= \033[0m #	Reset Colors
+# Colors
+GR	= \033[32;1m
+RE	= \033[31;1m
+YE	= \033[33;1m
+CY	= \033[36;1m
+RC	= \033[0m
 
+# Implicit rules
 VPATH = $(SRCDIR):$(OBJDIR)
 
 # ================================== RULES =================================== #
