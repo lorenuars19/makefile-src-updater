@@ -6,7 +6,7 @@
 #    By: lorenuar <lorenuar@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/10 13:37:24 by lorenuar          #+#    #+#              #
-#    Updated: 2021/02/20 18:55:44 by lorenuar         ###   ########.fr        #
+#    Updated: 2021/02/20 19:02:07 by lorenuar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -65,18 +65,19 @@ VPATH = $(SRCDIR):$(OBJDIR)
 
 all : $(NAME)
 
+# Compiling
 $(OBJDIR)%.o : %.c
 	@mkdir -p $(OBJDIR)
 	@printf "$(GR)+$(RC)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
-#	Linking
+# Linking
 $(NAME)	: $(SRCS) $(HEADERS) $(OBJS)
 	@printf "\n$(GR)=== Compiled [$(CC) $(CFLAGS)] ===\n--- $(SRC)$(RC)\n"
 	@$(CC) $(LDFLAGS) $(CFLAGS) -o $(NAME) $(OBJS)
 	@printf "$(YE)&&& Linked [$(CC) $(LDFLAGS)] &&&\n--- $(NAME)$(RC)\n"
 
-#	cleaning
+# Cleaning
 clean :
 	@echo "$(RE)--- Removing $(OBJDIR)$(RC)"
 	@rm -rf $(OBJDIR)
@@ -85,18 +86,13 @@ fclean : clean
 	@echo "$(RE)--- Removing $(NAME)$(RC)"
 	@rm -f $(NAME)
 
+# Special rule to force to remake everything
 re : fclean all
 
+# This runs the program
 run : $(NAME)
 	@echo "$(CY)>>> Running $(NAME)$(RC)"
 	./$(NAME)
 
-debug :
-	@echo "SRCS $(SRCS)"
-	@echo "SRC $(SRC)"
-	@echo "OBJS $(OBJS)"
-	@echo "OBJ $(OBJ)"
-	@echo "CSRCS $(CSRCS)"
-	@echo "CFLAGS $(CFLAGS)"
-
-.PHONY	= all run clean fclean re debug
+# This specifies the rules that does not correspond to any filename
+.PHONY	= all run clean fclean re
