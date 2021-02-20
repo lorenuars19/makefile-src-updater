@@ -6,13 +6,13 @@
 #    By: lorenuar <lorenuar@student.s19.be>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2020/04/10 13:37:24 by lorenuar          #+#    #+#              #
-#    Updated: 2020/11/30 16:08:52 by lorenuar         ###   ########.fr        #
+#    Updated: 2021/02/20 18:49:18 by lorenuar         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 # ================================ VARIABLES ================================= #
 
-NAME	= program
+NAME	= Program
 
 CC	= gcc
 CFLAGS	= -Wall -Werror -Wextra
@@ -22,17 +22,19 @@ CFLAGS	+= -g3 -fsanitize=address
 endif
 
 SRCDIR	= src/
-INCDIR	= include/
-OBJDIR	= objs/
+INCDIR	= includes/
+OBJDIR	= bin/
 
 CFLAGS	+= -I $(INCDIR)
+
+LDFLAGS =
 
 ###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼
 # **************************************************************************** #
 # **   Generated with https://github.com/lorenuars19/makefile-src-updater   ** #
 # **************************************************************************** #
 
-SRCS = \
+SRCS =\
 
 HEADERS = \
 
@@ -41,44 +43,44 @@ HEADERS = \
 SRC		:= $(notdir $(SRCS)) # 				Files only
 OBJ		:= $(SRC:.c=.o)	#				Files only
 OBJS	:= $(addprefix $(OBJDIR), $(OBJ)) #		Full path
-CSRCS	:= $(addprefix ../, $(SRCS)) #			Compiler
 
-GR	= \033[32;1m #	Green
-RE	= \033[31;1m #	Red
-WI	= \033[33;1m #	Yellow
-CY	= \033[36;1m #	Cyan
+GR	= \033[32;1m#	Green
+RE	= \033[31;1m#	Red
+YE	= \033[33;1m#	Yellow
+CY	= \033[36;1m#	Cyan
 RC	= \033[0m #	Reset Colors
+
+VPATH = $(SRCDIR):$(OBJDIR)
 
 # ================================== RULES =================================== #
 
 all : $(NAME)
 
-#	linking
-$(NAME)	: $(OBJS)
-	@printf "$(WI)&&& Linking $(OBJ) to $(NAME)$(RC)"
-	$(CC) $(CFLAGS) -o $(NAME) $(OBJS)
-
-#	compiling
-$(OBJS) : $(SRCS)
-	@printf "$(GR)+++ Compiling $(SRC) to $(OBJ)$(RC)"
+$(OBJDIR)%.o : %.c
 	@mkdir -p $(OBJDIR)
-	@cd $(OBJDIR) && $(CC) $(CFLAGS) -I ../$(INCDIR) -c $(CSRCS)
+	@printf "$(GR)+$(RC)"
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-#	runnng
+#	Linking
+$(NAME)	: $(SRCS) $(HEADERS) $(OBJS)
+	@printf "\n$(GR)=== Compiled [$(CC) $(CFLAGS)] ===\n--- $(SRC)$(RC)\n"
+	@$(CC) $(LDFLAGS) $(CFLAGS) -o $(NAME) $(OBJS)
+	@printf "$(YE)&&& Linked [$(CC) $(LDFLAGS)] &&&\n--- $(NAME)$(RC)\n"
 
-run : $(NAME)
-	@echo "$(CY)>>> Running $(NAME)$(RC)"
-	./$(NAME)
 #	cleaning
 clean :
-	@echo "$(RE)--- Removing $(OBJ)$(RC)"
-	@rm -f $(OBJS)
+	@echo "$(RE)--- Removing $(OBJDIR)$(RC)"
+	@rm -rf $(OBJDIR)
 
 fclean : clean
 	@echo "$(RE)--- Removing $(NAME)$(RC)"
 	@rm -f $(NAME)
 
 re : fclean all
+
+run : $(NAME)
+	@echo "$(CY)>>> Running $(NAME)$(RC)"
+	./$(NAME)
 
 debug :
 	@echo "SRCS $(SRCS)"
