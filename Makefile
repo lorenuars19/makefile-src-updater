@@ -59,7 +59,7 @@ CY	= \033[36;1m
 RC	= \033[0m
 
 # Implicit rules
-VPATH = $(SRCDIR):$(OBJDIR)
+VPATH := $(SRCDIR) $(OBJDIR) $(shell find $(SRCDIR) -type d)
 
 # ================================== RULES =================================== #
 
