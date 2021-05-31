@@ -13,29 +13,19 @@ curl https://raw.githubusercontent.com/lorenuars19/makefile-template/master/Make
 # Warning
 **DO NOT REMOVE THE BACKUP FILE UNLESS YOU ARE SURE THAT YOU DON'T NEED IT ANYMORE, THIS SCRIPT *REPLACES* THE CONTENT OF YOUR FILE**<br>
 I decline all responsibilities in case of any lose of any content.
-# Customization
-You can tweak and change the name of the files and the pattern to grep
-```
-file='Makefile'         # Makefile name
-bkpfile='.'$file'.bkp.in.case.something.goes.wrong'
-# Backup file name
+# Variables
+Use these to tweak the script to your needs.
+| Variable | Usage |
+| :------- | ----: |
+| file='Makefile' |	Makefile filename |
+| bkpfile='.'$file'.bkp.in.case.something.goes.wrong' | Backup filename |
+| SRCname='SRCS' | Pattern to look for in Makefile |
+| SRCdir='src' | Srcs directory name |
+| SRCfindptrn="**.c" |	Find pattern |
+| HEADERname='HEADERS' | Pattern to look for |
+| HEADERdir='includes' | Headers directory name |
+| HEADERfindptrn="**.h" | Find pattern
 
-SRCname='SRCS'          # Pattern to look for
-SRCdir='src/'           # Srcs directory name
-SRCfindptrn="**.c"      # Find pattern
-
-HEADERname='HEADERS'    # Pattern to look for
-HEADERdir='includes/'   # Srcs directory name
-HEADERfindptrn="**.h"   # Find pattern
-
-SRC_MARK_START="###▼▼▼<src-updater-do-not-edit-or-remove>▼▼▼"
-SRC_MARK_END="###▲▲▲<src-updater-do-not-edit-or-remove>▲▲▲"
-# Marker for updating without messing up the file
-
-splitA=.split.a.ignore.me
-splitB=.split.b.ignore.me
-# Names of the temporary files needed for splitting and re-joining
-```
 # How it works
 0. Check `$file` exists and make a backup
 1. Find the line containing the `$SRCname` with `grep`
