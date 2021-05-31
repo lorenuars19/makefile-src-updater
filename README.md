@@ -9,7 +9,7 @@ curl https://raw.githubusercontent.com/lorenuars19/makefile-src-updater/master/u
 ```bash
 curl https://raw.githubusercontent.com/lorenuars19/makefile-template/master/Makefile -o Makefile
 ```
-2. run the script (it is interactive)
+3. run the script (it is interactive)
 # Warning
 **DO NOT REMOVE THE BACKUP FILE UNLESS YOU ARE SURE THAT YOU DON'T NEED IT ANYMORE, THIS SCRIPT *REPLACES* THE CONTENT OF YOUR FILE**<br>
 I decline all responsibilities in case of any lose of any content.
