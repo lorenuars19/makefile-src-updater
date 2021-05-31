@@ -2,7 +2,9 @@
 You are a 42 network student and you are tired of typing your srcs manually ? This script will do it for you
 # Usage
 1. Copy the script into a folder containing a Makefile with a line containing `$srcname`
- - `curl https://raw.githubusercontent.com/lorenuars19/makefile-src-updater/master/update_srcs.sh -o update_srcs.sh && chmod 775 update_srcs.sh`
+```bash
+curl https://raw.githubusercontent.com/lorenuars19/makefile-src-updater/master/update_srcs.sh -o update_srcs.sh && chmod 775 update_srcs.sh
+```
 2. run the script (it is interactive)
 # Warning
 **DO NOT REMOVE THE BACKUP FILE UNLESS YOU ARE SURE THAT YOU DON'T NEED IT ANYMORE, THIS SCRIPT *REPLACES* THE CONTENT OF YOUR FILE**<br>
