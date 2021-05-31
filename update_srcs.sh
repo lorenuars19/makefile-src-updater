@@ -21,11 +21,11 @@ file='Makefile'										#	Makefile name
 bkpfile='.'$file'.bkp.in.case.something.goes.wrong' # 	Backup file name
 
 SRCname='SRCS'										#	Pattern to look for
-SRCdir='src/'										#	Srcs directory name
+SRCdir='src'										#	Srcs directory name
 SRCfindptrn="**.c"									#	Find pattern
 
 HEADERname='HEADERS'								#	Pattern to look for
-HEADERdir='includes/'								#	Srcs directory name
+HEADERdir='includes'								#	Headers directory name
 HEADERfindptrn="**.h"								#	Find pattern
 
 
@@ -96,20 +96,20 @@ function split_append_join()
 	echo "# **   Generated with https://github.com/lorenuars19/makefile-src-updater   ** #" >> $splitA
 	echo "# **************************************************************************** #" >> $splitA
 	echo "" >> $splitA
-	echo $SRCname" =\\" >> $splitA
+	echo $SRCname" = \\" >> $splitA
 
 	if [[ -d $SRCdir ]]
 	then
-		find ./$SRCdir -type f -name "$SRCfindptrn" | sed -e 's|^|\t|'| sed -e 's|$|\\|' >> $splitA
+		find ./$SRCdir -type f -name "$SRCfindptrn" | sed -e 's|^|	|'| sed -e 's|$| \\|' >> $splitA
 		printf $CY"$SRCname appended to "$splitA$RC"\n"
 	fi
 
 	echo "" >> $splitA
-	echo $HEADERname" =\\" >> $splitA
+	echo $HEADERname" = \\" >> $splitA
 
 	if [[ -d $HEADERdir ]]
 	then
-		find ./$HEADERdir -type f -name "$HEADERfindptrn" | sed -e 's|^|\t|'| sed -e 's|$|\\|' >> $splitA
+		find ./$HEADERdir -type f -name "$HEADERfindptrn" | sed -e 's|^|	|'| sed -e 's|$|\\|' >> $splitA
 		printf $CY"$HEADERname appended to "$splitA$RC"\n"
 	fi
 
